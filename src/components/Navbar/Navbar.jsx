@@ -2,6 +2,7 @@ import React from "react";
 import classes from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 import FriendsContainer from "./Friends/FriendsContainer";
+import preloader from "../../assets/images/preloader.svg";
 
 console.log(classes)
 const Navbar = (props) => {
@@ -15,6 +16,7 @@ const Navbar = (props) => {
             <div className={classes.item}><NavLink to='/settings' activeClassName={classes.active}>Settings</NavLink></div>
 
         <FriendsContainer/>
+
         </nav>
     )
 }
