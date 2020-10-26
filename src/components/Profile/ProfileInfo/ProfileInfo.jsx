@@ -1,8 +1,12 @@
 import React from "react";
 import classes from './ProfileInfo.module.css'
+import Preloader from "../../common/Preloader/Preloader";
 
 
 const ProfileInfo = (props) => {
+  if (!props.profile) {
+    return <Preloader/>
+  }
     return (
         <div >
             <div className={classes.content__img_box}>
@@ -11,7 +15,8 @@ const ProfileInfo = (props) => {
                      alt="Profile logo"/>
             </div>
             <div className={classes.descriptionBlock}>
-                Avatar + text
+              <img src={props.profile.photos.large} alt="Avatar"/>
+              <div>{props.profile.aboutMe}</div>
             </div>
         </div>
     )
