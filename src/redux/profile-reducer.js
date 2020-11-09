@@ -49,7 +49,7 @@ const profileReducer = (state = initialState, action) => {
                newPostText: action.updatedPost
            }
         };
-        case (SET_USER_PROFILE):
+        case SET_USER_PROFILE:
             return {
                 ...state,
                 profile: state.profile = action.profile

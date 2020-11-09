@@ -38,8 +38,8 @@ export const headerAPI = {
 
 export const profileAPI = {
   getUserProfile(userId) {
-    return instance(`profile/${userId}`).then(responce => {
-      return responce.data
+    return instance(`profile/${userId}`).then(response => {
+      return response.data
     })
   }
 }

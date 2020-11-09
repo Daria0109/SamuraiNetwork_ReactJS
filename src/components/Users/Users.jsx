@@ -29,25 +29,30 @@ const Users = (props) => {
 
       {
         props.users.map(u => <div key={u.id} className={s.user_block}>
-
             <div className={s.user_left}>
               <NavLink to={"/profile/" + u.id}>
                 <img src={u.photos.small ? u.photos.small : userPhoto} className={s.avatar}/>
               </NavLink>
               {u.followed ?
-                <button className={s.btn} onClick={() =>
+                <button className={s.btn} disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                  props.toggleFollowingProgress(true, u.id);
                   usersAPI.unfollowUser(u.id).then(data => {
                     if (data.resultCode === 0) {
                       props.unfollow(u.id)
                     }
-                  })}>Unfollow</button> :
+                    props.toggleFollowingProgress(false, u.id);
+                  });
+                }}>Unfollow</button> :
 
-                <button className={s.btn} onClick={() =>
+                <button className={s.btn} disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                  props.toggleFollowingProgress(true, u.id);
                   usersAPI.followUser(u.id).then(data => {
                     if (data.resultCode === 0) {
                       props.follow(u.id)
                     }
-                  })}>Follow</button>
+                    props.toggleFollowingProgress(false, u.id);
+                  });
+                }}>Follow</button>
               }
             </div>
 
