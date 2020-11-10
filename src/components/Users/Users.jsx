@@ -2,8 +2,6 @@ import s from "./Users.module.css";
 import userPhoto from "../../assets/images/default-avatar.png";
 import React from "react";
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
-import {usersAPI} from "../../api/api";
 
 const Users = (props) => {
 
@@ -26,33 +24,19 @@ const Users = (props) => {
           }
         )}
 
-
-      {
-        props.users.map(u => <div key={u.id} className={s.user_block}>
+      {props.users.map(u => <div key={u.id} className={s.user_block}>
             <div className={s.user_left}>
               <NavLink to={"/profile/" + u.id}>
                 <img src={u.photos.small ? u.photos.small : userPhoto} className={s.avatar}/>
               </NavLink>
               {u.followed ?
-                <button className={s.btn} disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                  props.toggleFollowingProgress(true, u.id);
-                  usersAPI.unfollowUser(u.id).then(data => {
-                    if (data.resultCode === 0) {
-                      props.unfollow(u.id)
-                    }
-                    props.toggleFollowingProgress(false, u.id);
-                  });
-                }}>Unfollow</button> :
+                <button className={s.btn}
+                        disabled={props.followingInProgress.some(id => id === u.id)}
+                        onClick={() => props.unfollow(u.id)}>Unfollow</button> :
 
-                <button className={s.btn} disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                  props.toggleFollowingProgress(true, u.id);
-                  usersAPI.followUser(u.id).then(data => {
-                    if (data.resultCode === 0) {
-                      props.follow(u.id)
-                    }
-                    props.toggleFollowingProgress(false, u.id);
-                  });
-                }}>Follow</button>
+                <button className={s.btn}
+                        disabled={props.followingInProgress.some(id => id === u.id)}
+                        onClick={() => props.follow(u.id)}>Follow</button>
               }
             </div>
 
