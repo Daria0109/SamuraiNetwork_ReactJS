@@ -9,6 +9,7 @@ import React from "react";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {Redirect} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 export class UsersContainer extends React.Component {
@@ -29,9 +30,7 @@ export class UsersContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.isAuth) return <Redirect to='/login'/>
-    return (
-      <>
+    return <>
         {this.props.isFetching ? <Preloader/> : null}
         <Users totalUsersCount={this.props.totalUsersCount}
                pageSize={this.props.pageSize}
@@ -43,9 +42,10 @@ export class UsersContainer extends React.Component {
                followingInProgress={this.props.followingInProgress}
                toggleFollowingProgress={this.props.toggleFollowingProgress}/>
       </>
-    )
   }
 }
+
+const AuthRedirectComponent = withAuthRedirect(UsersContainer);
 
 const mapStateToProps = (state) => {
   return {
@@ -55,7 +55,6 @@ const mapStateToProps = (state) => {
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
     followingInProgress: state.usersPage.followingInProgress,
-    isAuth: state.auth.isAuth
   }
 }
 
@@ -66,4 +65,4 @@ export default connect(mapStateToProps,
     unfollow,
     toggleFollowingProgress,
     getUsers
-  })(UsersContainer);
+  })(AuthRedirectComponent);
