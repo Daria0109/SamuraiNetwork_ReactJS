@@ -11,6 +11,12 @@
 }
 .login_block {
     margin-right: 20px;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    }
+.login {
     font-size: 18px;
     font-weight: bold;
     color: navy;
