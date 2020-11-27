@@ -5,21 +5,25 @@ import {maxLengthValidatorCreator, required} from "../../utilities/validators/va
 import {login} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+import s from '../common/formControls/Textarea.module.css'
 
 const maxLength20 = maxLengthValidatorCreator(20)
 
 const LoginForm = (props) => {
+  // debugger
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
         <Field component={Input} name='email' placeholder='Login' validate={[required, maxLength20]}/>
       </div>
       <div>
-        <Field component={Input} name='password' placeholder='Password' validate={[required, maxLength20]} type='password'/>
+        <Field component={Input} name='password' placeholder='Password' validate={[required, maxLength20]}
+               type='password'/>
       </div>
       <div>
         <Field component='input' name='rememberMe' type="checkbox" validate={[required, maxLength20]}/> remember me
       </div>
+      {props.error && <div className={s.formSummaryError}> {props.error} </div>}
       <div>
         <button>LogIn</button>
       </div>
