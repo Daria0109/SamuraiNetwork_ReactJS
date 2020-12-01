@@ -57,8 +57,7 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  withAuthRedirect,
-  connect(mapStateToProps,
+    connect(mapStateToProps,
     {
       setCurrentPage,
       follow,
