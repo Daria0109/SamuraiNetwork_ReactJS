@@ -1,19 +1,16 @@
 import {getAuthUserData} from "./auth-reducer";
 
-const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
+const INITIALIZED_SUCCESS = "samurai-network/app/INITIALIZED-SUCCESS";
 
 export const initializedSuccess = () => ({type: INITIALIZED_SUCCESS})
 
 // T h u n k   C r e a t o r s
 export const initializeApp = () => {
-  return (dispatch) => {
-    let promise = dispatch(getAuthUserData());
-    Promise.all([promise]).then(() => {
-      dispatch(initializedSuccess())
-    })
+  return async (dispatch) => {
+    await dispatch(getAuthUserData());
+    dispatch(initializedSuccess())
   }
 }
-
 
 let initialState = {
   initialized: false
@@ -30,4 +27,4 @@ const appReducer = (state = initialState, action) => {
       return state;
   }
 }
-export default  appReducer;
+export default appReducer;

@@ -1,4 +1,4 @@
-const ADD_MESSAGE = "ADD-MESSAGE";
+const ADD_MESSAGE = "samurai-network/dialogs/ADD-MESSAGE";
 
 export const addMessage = (message) => ({type: ADD_MESSAGE, message})
 

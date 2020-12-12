@@ -1,7 +1,7 @@
 import {authAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-const SET_AUTH_USER_DATA = "SET-USER-DATA";
+const SET_AUTH_USER_DATA = "samurai-network/auth/SET-USER-DATA";
 
 export const setAuthUserData = (id, email, login, isAuth) => ({
   type: SET_AUTH_USER_DATA, payload: {id, email, login}, isAuth
@@ -9,34 +9,31 @@ export const setAuthUserData = (id, email, login, isAuth) => ({
 
 // T h u n k   C r e a t o r s
 export const getAuthUserData = () => {
-  return (dispatch) => {
-   return authAPI.getAuth().then(data => {
-      if (data.resultCode === 0) {
-        let {id, login, email} = data.data;
-        dispatch(setAuthUserData(id, email, login, true));
-      }
-    })
+  return async (dispatch) => {
+    const response = await authAPI.getAuth();
+    if (response.resultCode === 0) {
+      let {id, login, email} = response.data;
+      dispatch(setAuthUserData(id, email, login, true));
+    }
   }
 }
 export const login = (email, password, rememberMe) => {
-  return (dispatch) => {
-    authAPI.login(email, password, rememberMe).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(getAuthUserData());
-      } else {
-        let message = data.messages.length > 0 ? data.messages[0] : "Some error";
-        dispatch(stopSubmit("login", {_error: message}))
-      }
-    })
+  return async (dispatch) => {
+    const response = await authAPI.login(email, password, rememberMe);
+    if (response.resultCode === 0) {
+      dispatch(getAuthUserData());
+    } else {
+      let message = response.messages.length > 0 ? response.messages[0] : "Some error";
+      dispatch(stopSubmit("login", {_error: message}))
+    }
   }
 }
 export const logout = () => {
-  return (dispatch) => {
-    authAPI.logout().then(data => {
-      if (data.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, null, false));
-      }
-    })
+  return async (dispatch) => {
+    const response = await authAPI.logout();
+    if (response.resultCode === 0) {
+      dispatch(setAuthUserData(null, null, null, false));
+    }
   }
 }
 
@@ -59,4 +56,4 @@ const authReducer = (state = initialState, action) => {
       return state;
   }
 }
-export default  authReducer;
+export default authReducer;

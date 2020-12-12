@@ -14,7 +14,8 @@ import {compose} from "redux";
 
 export class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.getUsers(this.props.currentPage, this.props.pageSize);
+    const {getUsers, currentPage, pageSize} = this.props;
+    getUsers(currentPage, pageSize);
     // this.props.toggleIsFetching(true);
     // usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
     //     this.props.toggleIsFetching(false);
@@ -25,22 +26,25 @@ export class UsersContainer extends React.Component {
   }
 
   setCurrentPage = (pageNumber) => {
-    this.props.setCurrentPage(pageNumber);
-    this.props.getUsers(pageNumber, this.props.pageSize)
+    const {setCurrentPage, getUsers, pageSize} = this.props;
+    setCurrentPage(pageNumber);
+    getUsers(pageNumber, pageSize)
   }
 
   render() {
+    const {isFetching, totalUsersCount, pageSize, currentPage,
+      users, unfollow, follow, followingInProgress, toggleFollowingProgress} = this.props;
     return <>
-        {this.props.isFetching ? <Preloader/> : null}
-        <Users totalUsersCount={this.props.totalUsersCount}
-               pageSize={this.props.pageSize}
-               currentPage={this.props.currentPage}
+        {isFetching ? <Preloader/> : null}
+        <Users totalUsersCount={totalUsersCount}
+               pageSize={pageSize}
+               currentPage={currentPage}
                setCurrentPage={this.setCurrentPage}
-               users={this.props.users}
-               unfollow={this.props.unfollow}
-               follow={this.props.follow}
-               followingInProgress={this.props.followingInProgress}
-               toggleFollowingProgress={this.props.toggleFollowingProgress}/>
+               users={users}
+               unfollow={unfollow}
+               follow={follow}
+               followingInProgress={followingInProgress}
+               toggleFollowingProgress={toggleFollowingProgress}/>
       </>
   }
 }

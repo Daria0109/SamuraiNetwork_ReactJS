@@ -1,8 +1,8 @@
 import {profileAPI} from "../api/api";
 
-const ADD_POST = "ADD-POST";
-const SET_USER_PROFILE = "SET-USER-PROFILE";
-const SET_STATUS = "GET-STATUS"
+const ADD_POST = "samurai-network/profile/ADD-POST";
+const SET_USER_PROFILE = "samurai-network/profile/SET-USER-PROFILE";
+const SET_STATUS = "samurai-network/profile/GET-STATUS"
 
 export const addPostActionCreator = (post) => ({type: ADD_POST, post})
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile})
@@ -10,26 +10,23 @@ export const setStatus = (status) => ({type: SET_STATUS, status})
 
 // T h u n k  C r e a t o r
 export const getUserProfile = (userId) => {
-  return (dispatch) => {
-    profileAPI.getUserProfile(userId).then(data => {
-      dispatch(setUserProfile(data))
-    })
+  return async (dispatch) => {
+    const response = await profileAPI.getUserProfile(userId);
+    dispatch(setUserProfile(response))
   }
 }
 export const getStatus = (userId) => {
-  return (dispatch) => {
-    profileAPI.getStatus(userId).then(data => {
-      dispatch(setStatus(data))
-    })
+  return async (dispatch) => {
+    const response = await profileAPI.getStatus(userId);
+    dispatch(setStatus(response))
   }
 }
 export const updateStatus = (status) => {
-  return (dispatch) => {
-    profileAPI.updateStatus(status).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(setStatus(status))
-      }
-    })
+  return async (dispatch) => {
+    const response = await profileAPI.updateStatus(status);
+    if (response.resultCode === 0) {
+      dispatch(setStatus(status))
+    }
   }
 }
 
