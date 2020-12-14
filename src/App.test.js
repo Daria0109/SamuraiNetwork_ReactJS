@@ -1,9 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+import SamuraiApp from "./App";
+import ReactDOM from 'react-dom';
+import {create} from "react-test-renderer";
+import ProfileStatus from "./components/Profile/ProfileInfo/ProfileStatus/ProfileStatus";
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<SamuraiApp/>, div);
+  ReactDOM.unmountComponentAtNode(div);
 });
+
