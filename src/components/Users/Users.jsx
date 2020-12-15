@@ -3,13 +3,14 @@ import React from "react";
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
 
-const Users = ({totalUsersCount, pageSize, currentPage, setCurrentPage,
+const Users = ({totalUsersCount, pageSize, currentPage, setCurrentPage, portionSize,
                  users, followingInProgress, unfollow, follow}) => {
   return <div className={s.users}>
 
     <Paginator totalUsersCount={totalUsersCount}
                pageSize={pageSize}
                currentPage={currentPage}
+               portionSize={portionSize}
                setCurrentPage={setCurrentPage}/>
 
     {

@@ -1,15 +1,24 @@
 import s from "./Paginator.module.css";
-import React from "react";
+import React, {useState} from "react";
 
-const Paginator = ({totalUsersCount, pageSize, currentPage, setCurrentPage}) => {
+const Paginator = ({totalUsersCount, pageSize, currentPage, setCurrentPage, portionSize = 10}) => {
   const pageCount = Math.ceil(totalUsersCount / pageSize);
-  let pages = [];
+  const pages = [];
   for (let i = 1; i <= pageCount; i++) {
     pages.push(i)
   }
+  const portionCount = Math.ceil(pageCount / portionSize);
+  const [portionNumber, setPortionNumber] = useState(1);
+  const leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
+  const rightPortionPageNumber = portionNumber * portionSize;
+
   return <>
-    {
-      pages.map((p, i) => {
+    {portionNumber > 1 &&
+    <button onClick={() => setPortionNumber(portionNumber - 1)}>PREV</button>}
+
+    {pages
+      .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+      .map((p, i) => {
           const pageStyle = p === currentPage ? s.active_page : "";
           return (
             <span key={i}
@@ -18,7 +27,9 @@ const Paginator = ({totalUsersCount, pageSize, currentPage, setCurrentPage}) => 
           )
         }
       )}
-    </>
+    {portionCount > portionNumber &&
+    <button onClick={() => setPortionNumber(portionNumber + 1)}>NEXT</button>}
+  </>
 }
 
 export default Paginator;

@@ -32,13 +32,14 @@ export class UsersContainer extends React.Component {
   }
 
   render() {
-    const {isFetching, totalUsersCount, pageSize, currentPage,
+    const {isFetching, totalUsersCount, pageSize, currentPage, portionSize,
       users, unfollow, follow, followingInProgress, toggleFollowingProgress} = this.props;
     return <>
         {isFetching ? <Preloader/> : null}
         <Users totalUsersCount={totalUsersCount}
                pageSize={pageSize}
                currentPage={currentPage}
+               portionSize={portionSize}
                setCurrentPage={this.setCurrentPage}
                users={users}
                unfollow={unfollow}
@@ -57,6 +58,7 @@ const mapStateToProps = (state) => {
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
     followingInProgress: state.usersPage.followingInProgress,
+    portionSize: state.usersPage.portionSize
   }
 }
 
