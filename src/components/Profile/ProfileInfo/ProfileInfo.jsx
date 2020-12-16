@@ -5,6 +5,12 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 
 const ProfileInfo = (props) => {
+  const onLoadPhoto = (e) => {
+    if (e.target.files.length) {
+      props.savePhoto(e.target.files[0])
+    }
+  }
+
   if (!props.profile) {
     return <Preloader/>
   }
@@ -19,6 +25,9 @@ const ProfileInfo = (props) => {
                          updateStatus={props.updateStatus}/>
             <div className={classes.descriptionBlock}>
               <img src={props.profile.photos.large} alt="Avatar"/>
+              {props.isOwner && <div>
+                <input type='file' onChange={onLoadPhoto}/>
+              </div>}
               <div>{props.profile.aboutMe}</div>
             </div>
         </div>
