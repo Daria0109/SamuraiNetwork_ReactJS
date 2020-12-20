@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = "samurai-network/profile/ADD-POST";
 const SET_USER_PROFILE = "samurai-network/profile/SET-USER-PROFILE";
@@ -36,6 +37,23 @@ export const savePhoto = (photo) => {
     const data = await profileAPI.savePhoto(photo);
     if (data.resultCode === 0) {
       dispatch(savePhotoSuccess(data.data.photos))
+    }
+  }
+}
+export const saveProfile = (profile) => {
+  return async (dispatch, getState) => {
+    const data = await profileAPI.saveProfile(profile);
+    if (data.resultCode === 0) {
+      const myId = getState().auth.id;
+      dispatch(getUserProfile(myId))
+    } else {
+      const errorText = data.messages[0].slice(0, 18);
+      const fieldWithError = data.messages[0].slice(30, -1).toLowerCase();
+      dispatch(stopSubmit("edit-profile",
+        {
+          'contacts': {[fieldWithError]: errorText},
+        }))
+      return Promise.reject(data.messages[0])
     }
   }
 }
