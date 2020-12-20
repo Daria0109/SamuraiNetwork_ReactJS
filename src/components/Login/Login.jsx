@@ -9,7 +9,7 @@ import s from '../common/formControls/Textarea.module.css'
 
 const maxLength20 = maxLengthValidatorCreator(20)
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captcha}) => {
   // debugger
   return (
     <form onSubmit={handleSubmit}>
@@ -17,6 +17,8 @@ const LoginForm = ({handleSubmit, error}) => {
       {createForm(Input, 'password', 'Password', [required, maxLength20], {type: 'password'})}
       {createForm('input', 'rememberMe', null, [], {type: "checkbox"}, 'remember me')}
 
+      {captcha && <img src={captcha} alt='Captcha'/>}
+      {captcha && createForm(Input, 'captcha', 'Enter symbols...', [required])}
       {error && <div className={s.formSummaryError}> {error} </div>}
       <div>
         <button>LogIn</button>
@@ -29,7 +31,7 @@ const ReduxLoginForm = reduxForm({form: 'login'})(LoginForm)
 
 const Login = (props) => {
   const onSubmit = (formData) => {
-    props.login(formData.email, formData.password, formData.rememberMe)
+    props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
   }
   if (props.isAuth) {
     return <Redirect to='/profile'/>
@@ -37,13 +39,14 @@ const Login = (props) => {
   return (
     <div>
       <h1>Login</h1>
-      <ReduxLoginForm onSubmit={onSubmit}/>
+      <ReduxLoginForm onSubmit={onSubmit} captcha={props.captcha}/>
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
-  isAuth: state.auth.isAuth
+  isAuth: state.auth.isAuth,
+  captcha: state.auth.captchaUrl
 })
 export default connect(mapStateToProps, {login})(Login);
 
